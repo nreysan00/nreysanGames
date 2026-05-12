@@ -1,0 +1,81 @@
+/* ─── Reset & Base ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:           #0b0914;
+  --bg-surface:   #13102a;
+  --bg-card:      #1a1730;
+  --bg-card-h:    #201d3d;
+  --accent:       #8b5cf6;
+  --accent-light: #a78bfa;
+  --accent-dark:  #7c3aed;
+  --accent-glow:  rgba(139, 92, 246, 0.35);
+  --gold:         #f59e0b;
+  --red:          #ef4444;
+  --green:        #22c55e;
+  --text:         #f1f5f9;
+  --text-muted:   #94a3b8;
+  --border:       rgba(139, 92, 246, 0.13);
+  --border-h:     rgba(139, 92, 246, 0.35);
+  --radius:       14px;
+  --radius-sm:    8px;
+}
+
+html, body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg);
+}
+
+/* ─── Typography overrides ─────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+p { color: var(--text-muted); }
+
+/* ─── Scrollbar ────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent-dark); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ─── Accessibility ────────────────────────────────────────────── */
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.visually-hidden-focusable:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+}
