@@ -102,6 +102,7 @@ function cerrarSesion() {
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end user-dropdown">
                   <span class="dropdown-header" @click.stop>Hola, {{ usuarioLogado }}</span>
+                  <li v-if="usuarioLogado == 'admin'"><a class="dropdown-item user-dropdown-item" href="/admin">Panel de Administración</a></li>
                   <li><a class="dropdown-item user-dropdown-item" href="/milista">Mis Listas</a></li>
                   <li><hr class="dropdown-divider user-divider"></li>
                   <li>

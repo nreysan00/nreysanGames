@@ -6,6 +6,8 @@ import Registro from '../views/Register.vue'
 import Busqueda from '../views/Busqueda.vue'
 import MiLista from '../views/MiLista.vue';
 import VerJuego from '../views/VerJuego.vue';
+import Admin from '../views/Admin.vue';
+import PerfilUsuario from '../views/PerfilUsuario.vue';
 // import HomeLogueado from '../views/HomeLogueado.vue'
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -75,6 +77,23 @@ const router = createRouter({
             path: '/juego/:id',
             name: 'verjuego',
             component: VerJuego
+        },
+        {
+            path: '/perfil/:username',
+            name: 'perfil',
+            component: PerfilUsuario
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: Admin,
+            beforeEnter: (to, from, next) => {
+                const usuarioRaw = localStorage.getItem('login');
+                if (!usuarioRaw) return next({ name: 'home' });
+                const usuario = JSON.parse(usuarioRaw);
+                if (usuario.username !== 'admin') return next({ name: 'home' });
+                next();
+            }
         }
     ],
 })

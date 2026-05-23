@@ -133,17 +133,17 @@ async function traducirDesc() {
   <div class="site-wrapper">
     <AppHeader />
 
-    <main class="verjuego-page">
+    <main style="min-height:calc(100vh - 64px); background:var(--bg)">
 
       <!-- Loading -->
-      <div v-if="loading" class="loading-screen">
-        <div class="spinner-border text-accent" role="status"></div>
-        <p>Cargando detalles del juego…</p>
+      <div v-if="loading" class="d-flex flex-column align-items-center justify-content-center gap-3 text-center text-muted" style="min-height:60vh">
+        <div class="spinner-border" role="status"></div>
+        <p class="mb-0">Cargando detalles del juego…</p>
       </div>
 
       <!-- Error -->
-      <div v-else-if="!juego" class="loading-screen">
-        <div class="empty-icon"><i class="bi bi-exclamation-triangle"></i></div>
+      <div v-else-if="!juego" class="d-flex flex-column align-items-center justify-content-center gap-3 text-center text-muted" style="min-height:60vh">
+        <i class="bi bi-exclamation-triangle empty-icon"></i>
         <h3>No se pudo cargar el juego</h3>
         <p>Comprueba tu conexión o vuelve a intentarlo.</p>
         <router-link to="/busqueda" class="back-link">
@@ -153,66 +153,45 @@ async function traducirDesc() {
 
       <template v-else>
 
-        <!-- ── Hero ───────────────────────────────────────── -->
+        <!-- Hero -->
         <section class="game-hero" :style="heroStyle">
           <div class="hero-overlay">
-            <div class="container hero-container">
+            <div class="container">
 
-              <!-- Breadcrumb -->
-              <nav class="breadcrumb-nav">
+              <nav class="d-flex align-items-center gap-2 mb-4 small">
                 <router-link to="/busqueda" class="breadcrumb-link">
                   <i class="bi bi-search me-1"></i>Búsqueda
                 </router-link>
-                <span class="breadcrumb-sep">/</span>
-                <span class="breadcrumb-current">{{ juego.name }}</span>
+                <span class="text-muted">/</span>
+                <span class="text-muted text-truncate" style="max-width:260px">{{ juego.name }}</span>
               </nav>
 
-              <div class="hero-body">
-                <!-- Cover thumbnail -->
-                <img
-                  v-if="juego.background_image"
-                  :src="juego.background_image"
-                  :alt="juego.name"
-                  class="hero-thumb"
-                />
+              <div class="d-flex gap-4 align-items-end">
+                <img v-if="juego.background_image" :src="juego.background_image" :alt="juego.name"
+                  class="hero-thumb d-none d-md-block" />
 
-                <div class="hero-info">
-                  <!-- Badges row -->
-                  <div class="badge-row">
-                    <span v-if="juego.esrb_rating" class="badge-chip esrb">
-                      {{ juego.esrb_rating.name }}
-                    </span>
+                <div class="flex-grow-1">
+                  <div class="d-flex flex-wrap gap-2 mb-2">
+                    <span v-if="juego.esrb_rating" class="badge-chip esrb">{{ juego.esrb_rating.name }}</span>
                     <span v-if="juego.metacritic" class="badge-chip metacritic"
                       :style="{ borderColor: metacriticColor(juego.metacritic), color: metacriticColor(juego.metacritic) }">
                       MC {{ juego.metacritic }}
                     </span>
-                    <span class="badge-chip rating-chip">
-                      <i class="bi bi-star-fill me-1"></i>{{ juego.rating?.toFixed(1) }} / 5
-                    </span>
-                    <span class="badge-chip year-chip">
-                      <i class="bi bi-calendar3 me-1"></i>{{ formatYear(juego.released) }}
-                    </span>
+                    <span class="badge-chip rating-chip"><i class="bi bi-star-fill me-1"></i>{{ juego.rating?.toFixed(1) }} / 5</span>
+                    <span class="badge-chip year-chip"><i class="bi bi-calendar3 me-1"></i>{{ formatYear(juego.released) }}</span>
                   </div>
 
                   <h1 class="hero-title">{{ juego.name }}</h1>
 
-                  <!-- Genre pills -->
-                  <div v-if="juego.genres?.length" class="genre-pills">
+                  <div v-if="juego.genres?.length" class="d-flex flex-wrap gap-2 mb-3">
                     <span v-for="g in juego.genres" :key="g.id" class="genre-pill">{{ g.name }}</span>
                   </div>
 
-                  <!-- Actions -->
-                  <div class="hero-actions">
+                  <div class="d-flex flex-wrap gap-2">
                     <button class="add-btn" @click="agregarAlBacklog">
                       <i class="bi bi-plus-circle-fill me-2"></i>Añadir a mi lista
                     </button>
-                    <a
-                      v-if="juego.website"
-                      :href="juego.website"
-                      target="_blank"
-                      rel="noopener"
-                      class="site-btn"
-                    >
+                    <a v-if="juego.website" :href="juego.website" target="_blank" rel="noopener" class="site-btn">
                       <i class="bi bi-globe2 me-2"></i>Web oficial
                     </a>
                   </div>
@@ -223,69 +202,49 @@ async function traducirDesc() {
           </div>
         </section>
 
-        <!-- ── Detail content ─────────────────────────────── -->
-        <section class="detail-section">
-          <div class="container detail-grid">
+        <!-- Detail content -->
+        <section class="container py-5">
+          <div class="row g-4 align-items-start">
 
             <!-- Main column -->
-            <div class="detail-main">
+            <div class="col-12 col-lg-8">
 
               <!-- Description -->
-              <div v-if="juego.description_raw" class="detail-block">
-                <h2 class="block-title">
-                  <i class="bi bi-file-text me-2 accent-text"></i>Descripción
-                </h2>
-
-                <div v-if="traduciendo" class="desc-loading">
-                  <span class="spinner-border spinner-border-sm me-2"></span>
-                  Traduciendo descripción…
+              <div v-if="juego.description_raw" class="detail-block mb-4">
+                <h2 class="block-title"><i class="bi bi-file-text me-2 accent-text"></i>Descripción</h2>
+                <div v-if="traduciendo" class="d-flex align-items-center gap-2 text-muted fst-italic small py-2">
+                  <span class="spinner-border spinner-border-sm"></span> Traduciendo descripción…
                 </div>
-                <p v-else class="description-text">
-                  {{ descExpanded ? descCompleta : descCorta }}
-                </p>
-
-                <button
-                  v-if="descCompleta.length > 600"
-                  class="expand-btn"
-                  @click="descExpanded = !descExpanded"
-                >
+                <p v-else class="description-text mb-2">{{ descExpanded ? descCompleta : descCorta }}</p>
+                <button v-if="descCompleta.length > 600" class="expand-btn" @click="descExpanded = !descExpanded">
                   {{ descExpanded ? 'Ver menos' : 'Leer más' }}
                   <i :class="descExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
                 </button>
               </div>
 
               <!-- Rating breakdown -->
-              <div v-if="juego.ratings?.length" class="detail-block">
+              <div v-if="juego.ratings?.length" class="detail-block mb-4">
                 <h2 class="block-title"><i class="bi bi-bar-chart-fill me-2 accent-text"></i>Valoraciones</h2>
-                <div class="rating-bars">
-                  <div
-                    v-for="r in juego.ratings"
-                    :key="r.id"
-                    class="rating-row"
-                  >
-                    <span class="rating-label">{{ r.title }}</span>
-                    <div class="bar-track">
-                      <div
-                        class="bar-fill"
-                        :style="{ width: r.percent + '%', background: ratingBarColor(r.title) }"
-                      ></div>
+                <div class="d-flex flex-column gap-3">
+                  <div v-for="r in juego.ratings" :key="r.id" class="d-flex align-items-center gap-3">
+                    <span class="rating-label text-muted small text-capitalize text-end" style="min-width:100px">{{ r.title }}</span>
+                    <div class="bar-track flex-grow-1">
+                      <div class="bar-fill" :style="{ width: r.percent + '%', background: ratingBarColor(r.title) }"></div>
                     </div>
-                    <span class="rating-pct">{{ r.percent.toFixed(1) }}%</span>
+                    <span class="text-muted small text-end" style="min-width:42px">{{ r.percent.toFixed(1) }}%</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Platforms detail -->
-              <div v-if="juego.platforms?.length" class="detail-block">
+              <!-- Platforms -->
+              <div v-if="juego.platforms?.length" class="detail-block mb-4">
                 <h2 class="block-title"><i class="bi bi-display me-2 accent-text"></i>Plataformas</h2>
-                <div class="platforms-list">
-                  <div
-                    v-for="p in juego.platforms"
-                    :key="p.platform.id"
-                    class="platform-item"
-                  >
-                    <i :class="platformIcon(p.platform.slug)" class="platform-icon"></i>
-                    <span>{{ p.platform.name }}</span>
+                <div class="row g-2">
+                  <div v-for="p in juego.platforms" :key="p.platform.id" class="col-6 col-md-4">
+                    <div class="platform-item d-flex align-items-center gap-2">
+                      <i :class="platformIcon(p.platform.slug)" class="platform-icon"></i>
+                      <span class="small text-muted">{{ p.platform.name }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -293,66 +252,51 @@ async function traducirDesc() {
             </div>
 
             <!-- Sidebar -->
-            <aside class="detail-sidebar">
+            <aside class="col-12 col-lg-4">
 
-              <!-- Stats -->
-              <div class="sidebar-block stats-block">
-                <div class="stat-item">
-                  <span class="stat-label">Tiempo de juego</span>
-                  <span class="stat-value">
-                    <i class="bi bi-clock me-1 accent-text"></i>
-                    {{ juego.playtime ? juego.playtime + ' horas' : 'N/A' }}
-                  </span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-label">Logros</span>
-                  <span class="stat-value">
-                    <i class="bi bi-trophy me-1 accent-text"></i>
-                    {{ juego.parent_achievements_count ?? 'N/A' }}
-                  </span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-label">Lanzamiento</span>
-                  <span class="stat-value">
-                    <i class="bi bi-calendar3 me-1 accent-text"></i>
-                    {{ juego.released || 'TBA' }}
-                  </span>
+              <div class="sidebar-block mb-3">
+                <div class="d-flex flex-column gap-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="sidebar-label">Tiempo de juego</span>
+                    <span class="fw-semibold small"><i class="bi bi-clock me-1 accent-text"></i>{{ juego.playtime ? juego.playtime + ' h' : 'N/A' }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="sidebar-label">Logros</span>
+                    <span class="fw-semibold small"><i class="bi bi-trophy me-1 accent-text"></i>{{ juego.parent_achievements_count ?? 'N/A' }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="sidebar-label">Lanzamiento</span>
+                    <span class="fw-semibold small"><i class="bi bi-calendar3 me-1 accent-text"></i>{{ juego.released || 'TBA' }}</span>
+                  </div>
                 </div>
               </div>
 
-              <!-- Developers -->
-              <div v-if="juego.developers?.length" class="sidebar-block">
-                <h3 class="sidebar-title">Desarrolladora</h3>
-                <div class="tag-list">
+              <div v-if="juego.developers?.length" class="sidebar-block mb-3">
+                <p class="sidebar-title">Desarrolladora</p>
+                <div class="d-flex flex-wrap gap-2">
                   <span v-for="d in juego.developers" :key="d.id" class="tag">{{ d.name }}</span>
                 </div>
               </div>
 
-              <!-- Publishers -->
-              <div v-if="juego.publishers?.length" class="sidebar-block">
-                <h3 class="sidebar-title">Distribuidora</h3>
-                <div class="tag-list">
+              <div v-if="juego.publishers?.length" class="sidebar-block mb-3">
+                <p class="sidebar-title">Distribuidora</p>
+                <div class="d-flex flex-wrap gap-2">
                   <span v-for="p in juego.publishers" :key="p.id" class="tag">{{ p.name }}</span>
                 </div>
               </div>
 
-              <!-- Genres -->
-              <div v-if="juego.genres?.length" class="sidebar-block">
-                <h3 class="sidebar-title">Géneros</h3>
-                <div class="tag-list">
+              <div v-if="juego.genres?.length" class="sidebar-block mb-3">
+                <p class="sidebar-title">Géneros</p>
+                <div class="d-flex flex-wrap gap-2">
                   <span v-for="g in juego.genres" :key="g.id" class="tag accent-tag">{{ g.name }}</span>
                 </div>
               </div>
 
-              <!-- Tags -->
-              <div v-if="juego.tags?.length" class="sidebar-block">
-                <h3 class="sidebar-title">Etiquetas</h3>
-                <div class="tag-list">
-                  <span
-                    v-for="t in juego.tags.filter(t => t.language === 'eng').slice(0, 12)"
-                    :key="t.id"
-                    class="tag small-tag"
-                  >{{ t.name }}</span>
+              <div v-if="juego.tags?.length" class="sidebar-block mb-3">
+                <p class="sidebar-title">Etiquetas</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span v-for="t in juego.tags.filter(t => t.language === 'eng').slice(0, 12)" :key="t.id"
+                    class="tag small-tag">{{ t.name }}</span>
                 </div>
               </div>
 
@@ -366,7 +310,6 @@ async function traducirDesc() {
 
     <AppFooter />
 
-    <!-- Toast -->
     <Transition name="toast">
       <div v-if="toast.show" class="toast-notif" :class="toast.type">
         <i :class="toast.type === 'success' ? 'bi bi-check-circle-fill' : 'bi bi-exclamation-circle-fill'" class="me-2"></i>
@@ -377,425 +320,66 @@ async function traducirDesc() {
 </template>
 
 <style scoped>
-/* ── Page ────────────────────────────────────────── */
-.verjuego-page { min-height: calc(100vh - 64px); background: var(--bg); }
-
 .accent-text { color: var(--accent-light); }
-
-/* ── Loading / Error ─────────────────────────────── */
-.loading-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  min-height: 60vh;
-  color: var(--text-muted);
-}
-
-.empty-icon { font-size: 3.5rem; color: var(--accent); opacity: .4; }
-
-.back-link {
-  color: var(--accent-light);
-  text-decoration: none;
-  font-size: .9rem;
-  margin-top: .5rem;
-}
-
+.empty-icon  { font-size: 3.5rem; color: var(--accent); opacity: .4; }
+.back-link   { color: var(--accent-light); text-decoration: none; }
 .back-link:hover { text-decoration: underline; }
 
-/* ── Hero ────────────────────────────────────────── */
-.game-hero {
-  background-size: cover;
-  background-position: center top;
-  position: relative;
-}
-
+/* Hero */
+.game-hero { background-size: cover; background-position: center top; }
 .hero-overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(11, 9, 20, 0.55) 0%,
-    rgba(11, 9, 20, 0.82) 50%,
-    rgba(11, 9, 20, 1)    100%
-  );
+  background: linear-gradient(to bottom, rgba(11,9,20,.55) 0%, rgba(11,9,20,.82) 50%, rgba(11,9,20,1) 100%);
   padding: 5rem 0 3rem;
 }
-
-.hero-container { position: relative; }
-
-/* Breadcrumb */
-.breadcrumb-nav {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  margin-bottom: 2rem;
-  font-size: .85rem;
-}
-
-.breadcrumb-link {
-  color: var(--accent-light);
-  text-decoration: none;
-}
-
+.hero-thumb { width: 180px; flex-shrink: 0; border-radius: var(--radius); box-shadow: 0 16px 48px rgba(0,0,0,.6); border: 1px solid var(--border-h); object-fit: cover; aspect-ratio: 3/4; }
+.breadcrumb-link { color: var(--accent-light); text-decoration: none; }
 .breadcrumb-link:hover { text-decoration: underline; }
+.hero-title { font-size: clamp(1.8rem,5vw,3.2rem); font-weight: 800; line-height: 1.1; margin-bottom: .8rem; text-shadow: 0 2px 16px rgba(0,0,0,.5); }
 
-.breadcrumb-sep { color: var(--text-muted); }
+/* Badges */
+.badge-chip { display: inline-flex; align-items: center; font-size: .72rem; font-weight: 700; padding: .2rem .65rem; border-radius: 20px; border: 1px solid transparent; text-transform: uppercase; }
+.esrb        { background: rgba(139,92,246,.18); border-color: rgba(139,92,246,.35); color: var(--accent-light); }
+.metacritic  { background: rgba(0,0,0,.35); }
+.rating-chip { background: rgba(245,158,11,.12); border-color: rgba(245,158,11,.3); color: #fbbf24; }
+.year-chip   { background: rgba(148,163,184,.1); border-color: rgba(148,163,184,.2); color: var(--text-muted); }
 
-.breadcrumb-current {
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 260px;
-}
+.genre-pill { font-size: .75rem; background: rgba(139,92,246,.15); border: 1px solid rgba(139,92,246,.25); color: var(--accent-light); padding: .15rem .6rem; border-radius: 20px; }
 
-/* Hero body layout */
-.hero-body {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-end;
-}
-
-.hero-thumb {
-  width: 180px;
-  flex-shrink: 0;
-  border-radius: var(--radius);
-  box-shadow: 0 16px 48px rgba(0,0,0,.6);
-  border: 1px solid var(--border-h);
-  object-fit: cover;
-  aspect-ratio: 3/4;
-  display: none; /* shown on md+ via media query */
-}
-
-.hero-info { flex: 1; }
-
-/* Badge row */
-.badge-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .45rem;
-  margin-bottom: .8rem;
-}
-
-.badge-chip {
-  display: inline-flex;
-  align-items: center;
-  font-size: .72rem;
-  font-weight: 700;
-  padding: .2rem .65rem;
-  border-radius: 20px;
-  border: 1px solid transparent;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-}
-
-.esrb {
-  background: rgba(139,92,246,.18);
-  border-color: rgba(139,92,246,.35);
-  color: var(--accent-light);
-}
-
-.metacritic {
-  background: rgba(0,0,0,.35);
-  font-size: .8rem;
-}
-
-.rating-chip {
-  background: rgba(245,158,11,.12);
-  border-color: rgba(245,158,11,.3);
-  color: #fbbf24;
-}
-
-.year-chip {
-  background: rgba(148,163,184,.1);
-  border-color: rgba(148,163,184,.2);
-  color: var(--text-muted);
-}
-
-/* Title */
-.hero-title {
-  font-size: clamp(1.8rem, 5vw, 3.2rem);
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: .8rem;
-  text-shadow: 0 2px 16px rgba(0,0,0,.5);
-}
-
-/* Genre pills */
-.genre-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .4rem;
-  margin-bottom: 1.2rem;
-}
-
-.genre-pill {
-  font-size: .75rem;
-  background: rgba(139,92,246,.15);
-  border: 1px solid rgba(139,92,246,.25);
-  color: var(--accent-light);
-  padding: .15rem .6rem;
-  border-radius: 20px;
-}
-
-/* Actions */
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .8rem;
-}
-
-.add-btn {
-  display: inline-flex;
-  align-items: center;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: .65rem 1.4rem;
-  font-weight: 700;
-  font-size: .9rem;
-  cursor: pointer;
-  transition: background .18s, transform .15s;
-}
-
-.add-btn:hover {
-  background: var(--accent-dark);
-  transform: translateY(-2px);
-}
-
-.site-btn {
-  display: inline-flex;
-  align-items: center;
-  background: transparent;
-  border: 1.5px solid var(--border-h);
-  color: var(--text-muted);
-  border-radius: var(--radius-sm);
-  padding: .65rem 1.2rem;
-  font-size: .9rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: border-color .18s, color .18s;
-}
-
-.site-btn:hover {
-  border-color: var(--accent-light);
-  color: var(--accent-light);
-}
-
-/* ── Detail section ──────────────────────────────── */
-.detail-section { padding: 3rem 0 4rem; }
-
-.detail-grid {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 2.5rem;
-  align-items: start;
-}
+/* Buttons */
+.add-btn  { display: inline-flex; align-items: center; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: .65rem 1.4rem; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .18s, transform .15s; }
+.add-btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+.site-btn { display: inline-flex; align-items: center; background: transparent; border: 1.5px solid var(--border-h); color: var(--text-muted); border-radius: var(--radius-sm); padding: .65rem 1.2rem; font-size: .9rem; font-weight: 600; text-decoration: none; transition: border-color .18s, color .18s; }
+.site-btn:hover { border-color: var(--accent-light); color: var(--accent-light); }
 
 /* Blocks */
-.detail-block {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  margin-bottom: 1.25rem;
-}
-
-.block-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  padding-bottom: .6rem;
-  border-bottom: 1px solid var(--border);
-}
-
-/* Description */
-.desc-loading {
-  display: flex;
-  align-items: center;
-  color: var(--text-muted);
-  font-size: .9rem;
-  font-style: italic;
-  padding: .5rem 0;
-}
-
-.description-text {
-  color: var(--text-muted);
-  line-height: 1.75;
-  font-size: .95rem;
-  white-space: pre-line;
-}
-
-.expand-btn {
-  background: none;
-  border: none;
-  color: var(--accent-light);
-  font-size: .85rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: .5rem 0 0;
-  display: flex;
-  align-items: center;
-}
-
+.detail-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.block-title  { font-size: 1.05rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: .6rem; border-bottom: 1px solid var(--border); }
+.description-text { color: var(--text-muted); line-height: 1.75; font-size: .95rem; white-space: pre-line; }
+.expand-btn { background: none; border: none; color: var(--accent-light); font-size: .85rem; font-weight: 600; cursor: pointer; padding: .4rem 0 0; display: flex; align-items: center; }
 .expand-btn:hover { text-decoration: underline; }
 
 /* Rating bars */
-.rating-bars { display: flex; flex-direction: column; gap: .7rem; }
+.bar-track { height: 6px; background: var(--bg-surface); border-radius: 3px; overflow: hidden; }
+.bar-fill  { height: 100%; border-radius: 3px; transition: width .6s ease; }
 
-.rating-row {
-  display: grid;
-  grid-template-columns: 110px 1fr 48px;
-  align-items: center;
-  gap: .75rem;
-}
-
-.rating-label {
-  font-size: .82rem;
-  color: var(--text-muted);
-  text-transform: capitalize;
-  text-align: right;
-}
-
-.bar-track {
-  height: 6px;
-  background: var(--bg-surface);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.bar-fill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width .6s ease;
-}
-
-.rating-pct {
-  font-size: .78rem;
-  color: var(--text-muted);
-  text-align: right;
-}
-
-/* Platforms list */
-.platforms-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: .5rem;
-}
-
-.platform-item {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: .35rem .7rem;
-  font-size: .82rem;
-  color: var(--text-muted);
-}
-
+/* Platforms */
+.platform-item { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .35rem .7rem; }
 .platform-icon { font-size: 1rem; color: var(--accent-light); }
 
-/* ── Sidebar ─────────────────────────────────────── */
-.sidebar-block {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-}
+/* Sidebar */
+.sidebar-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+.sidebar-title { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-bottom: .6rem; }
+.sidebar-label { font-size: .8rem; color: var(--text-muted); }
 
-.sidebar-title {
-  font-size: .8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--text-muted);
-  margin-bottom: .75rem;
-}
+/* Tags */
+.tag        { font-size: .78rem; background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted); padding: .2rem .6rem; border-radius: 20px; }
+.accent-tag { background: rgba(139,92,246,.12); border-color: rgba(139,92,246,.25); color: var(--accent-light); }
+.small-tag  { font-size: .72rem; }
 
-/* Stats */
-.stats-block { display: flex; flex-direction: column; gap: .8rem; }
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.stat-label {
-  font-size: .8rem;
-  color: var(--text-muted);
-}
-
-.stat-value {
-  font-size: .85rem;
-  font-weight: 600;
-  color: var(--text);
-}
-
-/* Tag lists */
-.tag-list { display: flex; flex-wrap: wrap; gap: .4rem; }
-
-.tag {
-  font-size: .78rem;
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  padding: .2rem .6rem;
-  border-radius: 20px;
-}
-
-.accent-tag {
-  background: rgba(139,92,246,.12);
-  border-color: rgba(139,92,246,.25);
-  color: var(--accent-light);
-}
-
-.small-tag { font-size: .72rem; }
-
-/* ── Toast ───────────────────────────────────────── */
-.toast-notif {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 9999;
-  padding: .8rem 1.3rem;
-  border-radius: var(--radius-sm);
-  font-size: .9rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 8px 30px rgba(0,0,0,.4);
-  max-width: 340px;
-}
-
-.toast-notif.success {
-  background: rgba(34,197,94,.15);
-  border: 1px solid rgba(34,197,94,.35);
-  color: #4ade80;
-}
-
-.toast-notif.error {
-  background: rgba(239,68,68,.15);
-  border: 1px solid rgba(239,68,68,.35);
-  color: #f87171;
-}
-
-.toast-enter-active { transition: all .3s ease; }
-.toast-leave-active { transition: all .25s ease; }
+/* Toast */
+.toast-notif { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; padding: .8rem 1.3rem; border-radius: var(--radius-sm); font-size: .9rem; font-weight: 600; display: flex; align-items: center; box-shadow: 0 8px 30px rgba(0,0,0,.4); max-width: 340px; }
+.toast-notif.success { background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.35); color: #4ade80; }
+.toast-notif.error   { background: rgba(239,68,68,.15);  border: 1px solid rgba(239,68,68,.35);  color: #f87171; }
+.toast-enter-active, .toast-leave-active { transition: all .3s ease; }
 .toast-enter-from, .toast-leave-to { opacity: 0; transform: translateY(12px); }
-
-/* ── Responsive ──────────────────────────────────── */
-@media (min-width: 768px) {
-  .hero-thumb { display: block; }
-}
-
-@media (max-width: 900px) {
-  .detail-grid {
-    grid-template-columns: 1fr;
-  }
-}
 </style>

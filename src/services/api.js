@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  //baseURL: 'http://localhost/back',
-  baseURL: 'https://nreysan828.infinityfreeapp.com/nreysangames',
+  baseURL: 'http://localhost/back',
+  //baseURL: 'https://nreysan828.infinityfreeapp.com/nreysangames',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -28,5 +28,13 @@ export default {
   },
   deleteGameFromBacklog(id) {
     return apiClient.post('/backlog.php?action=delete', { id })
+  },
+  // Admin
+  getAdminUsers() {
+    return apiClient.get('/admin.php');
+  },
+  // Perfil
+  getPerfilUsuario(username) {
+    return apiClient.get(`/perfil.php?username=${username}`);
   }
 };

@@ -121,30 +121,8 @@ const borrarJuego = async (id) => {
 </template>
 
 <style scoped>
-.game-card {
-  transition: transform 0.2s ease;
-  border: none;
-  background-color: #1a1a1a;
-  color: white;
-}
-
-.game-card:hover {
-  transform: translateY(-5px);
-}
-
-.game-cover-container {
-  height: 160px;
-  overflow: hidden;
-}
-
-.game-cover-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.site-wrapper {
-  background-color: #0d0d0d;
-  color: white;
-}
+.game-card { background: var(--bg-card); border: 1px solid var(--border) !important; transition: transform .2s, box-shadow .2s; }
+.game-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139,92,246,.15); }
+.game-cover-container { height: 160px; overflow: hidden; }
+.game-cover-container img { width: 100%; height: 100%; object-fit: cover; }
 </style>

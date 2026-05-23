@@ -27,8 +27,8 @@
           <div class="game-cover" :style="{ background: game.gradient }">
             <img 
               :src="game.image || 'https://via.placeholder.com/317x180?text=No+Image'" 
-              width="317px" 
-              height="180px"
+              width="330px" 
+              height="250px"
               :alt="`Portada de ${game.title}`"
             >
             <div class="cover-overlay">
@@ -202,7 +202,7 @@ const games = [
 
 /* ── Cover ── */
 .game-cover {
-  height: 180px;
+  height: 250px;
   position: relative;
   display: flex;
   align-items: center;
