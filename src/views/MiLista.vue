@@ -13,7 +13,6 @@ onMounted(() => {
 })
 
 const fetchUserGames = async () => {
-  // 1. Obtenemos el usuario del localStorage (usando tu clave 'login')
   const session = JSON.parse(localStorage.getItem('login'));
   console.log("Sesión recuperada:", session);
   if (!session || !session.id) {
@@ -23,7 +22,6 @@ const fetchUserGames = async () => {
   }
 
   try {
-    // 2. Llamada a la API usando el ID del usuario logueado
     const response = await api.getUserBacklog(session.id);
     
     // Axios guarda los datos en .data
@@ -40,7 +38,6 @@ const cambiarEstado = async (id, nuevoEstado) => {
     const response = await api.updateGameStatus(id, nuevoEstado);
     if (response.data.success) {
       console.log("Estado actualizado correctamente");
-      // Opcional: una notificación tipo Toast
     }
   } catch (error) {
     console.error("Error al actualizar estado:", error);

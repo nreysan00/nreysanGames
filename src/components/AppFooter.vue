@@ -2,10 +2,8 @@
   <footer class="site-footer" role="contentinfo" aria-label="Pie de página">
     <div class="container">
 
-      <!-- Top: columns -->
       <div class="row g-4 footer-top">
 
-        <!-- Brand col -->
         <div class="col-lg-4 col-md-6">
           <a class="footer-brand" href="#inicio" aria-label="Inicio de nreysanGames">
             <i class="bi bi-controller brand-ico" aria-hidden="true"></i>
@@ -32,7 +30,6 @@
           </div>
         </div>
 
-        <!-- Explore -->
         <div class="col-lg-2 col-md-3 col-6">
           <h3 class="footer-col-title">Explorar</h3>
           <ul class="footer-list" role="list">
@@ -44,7 +41,6 @@
           </ul>
         </div>
 
-        <!-- Account -->
         <div class="col-lg-2 col-md-3 col-6">
           <h3 class="footer-col-title">Mi Cuenta</h3>
           <ul class="footer-list" role="list">
@@ -56,7 +52,6 @@
           </ul>
         </div>
 
-        <!-- Info -->
         <div class="col-lg-4 col-md-6">
           <h3 class="footer-col-title">Información</h3>
           <ul class="footer-list" role="list">
@@ -73,7 +68,6 @@
 
       </div>
 
-      <!-- Bottom bar -->
       <div class="footer-bottom">
         <span class="footer-copy">
           &copy; {{ currentYear }} nreysanGames — Proyecto TFG Desarrollo de Aplicaciones Web

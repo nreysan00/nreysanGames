@@ -32,7 +32,7 @@ const usuariosFiltrados = computed(() => {
 });
 
 function maskPassword(hash) {
-  return '•'.repeat(12);
+  return '*'.repeat(12);
 }
 </script>
 

@@ -16,10 +16,4 @@ import SpecialOfferBanner from '../components/SpecialOfferBanner.vue';
       <SpecialOfferBanner />
       <AppFooter />
   </div>
-    <!-- <main id="main-content" role="main">
-      <HeroSection />
-      <CategoriesSection />
-      <GamesGrid />
-      <SpecialOfferBanner />
-    </main> -->
 </template>

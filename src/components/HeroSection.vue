@@ -15,7 +15,7 @@ const router = useRouter();
     <div class="container py-5">
       <div class="row align-items-center g-5">
 
-        <!-- ── Left: text ── -->
+        <!-- ── Left text ── -->
         <div class="col-lg-6">
           <span class="new-badge">
             <i class="bi bi-stars me-1"></i> Nuevo en nreysanGames

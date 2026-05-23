@@ -25,7 +25,6 @@ const loginUser = async () => {
 
   } catch (err) {
     console.error('Error al iniciar sesión:', err);
-    // La API devuelve { error: "..." } con 401, o puede haber error de red
     error.value = err.response?.data?.error
       ?? err.response?.data?.message
       ?? 'Error de conexión con el servidor.';
