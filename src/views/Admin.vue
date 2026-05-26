@@ -34,6 +34,16 @@ const usuariosFiltrados = computed(() => {
 function maskPassword(hash) {
   return '*'.repeat(12);
 }
+
+async function eliminarUsuario(usuario) {
+  if (!confirm(`¿Eliminar al usuario "${usuario.username}" y todos sus datos?`)) return;
+  try {
+    await api.deleteAdminUser(usuario.id);
+    usuarios.value = usuarios.value.filter(u => u.id !== usuario.id);
+  } catch (error) {
+    alert('No se pudo eliminar el usuario.');
+  }
+}
 </script>
 
 <template>
@@ -95,6 +105,7 @@ function maskPassword(hash) {
                   <th scope="col">Correo electrónico</th>
                   <th scope="col">Contraseña</th>
                   <th scope="col" class="col-games">Juegos en lista</th>
+                  <th scope="col" class="col-actions"></th>
                 </tr>
               </thead>
               <tbody>
@@ -123,6 +134,16 @@ function maskPassword(hash) {
                       :aria-label="`${usuario.juegos_count} juegos en la lista`">
                       <i class="bi bi-controller me-1" aria-hidden="true"></i>{{ usuario.juegos_count }}
                     </span>
+                  </td>
+                  <td class="col-actions">
+                    <button
+                      v-if="usuario.username !== 'admin'"
+                      class="delete-btn"
+                      @click="eliminarUsuario(usuario)"
+                      :aria-label="`Eliminar usuario ${usuario.username}`"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -173,6 +194,11 @@ function maskPassword(hash) {
 .password-mask { font-size: 1rem; letter-spacing: .1em; color: var(--text-muted); user-select: none; }
 .games-badge { display: inline-flex; align-items: center; background: rgba(139,92,246,.12); border: 1px solid rgba(139,92,246,.25); color: var(--accent-light); border-radius: 20px; padding: .2rem .75rem; font-size: .82rem; font-weight: 700; }
 .games-badge--empty { background: rgba(148,163,184,.07); border-color: rgba(148,163,184,.15); color: var(--text-muted); }
+
+.col-actions { width: 52px; text-align: center; }
+.admin-table th.col-actions, .admin-table td.col-actions { text-align: center; }
+.delete-btn { width: 32px; height: 32px; background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.2); border-radius: 8px; color: #f87171; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; font-size: .85rem; }
+.delete-btn:hover { background: rgba(239,68,68,.18); border-color: rgba(239,68,68,.45); color: #fca5a5; }
 
 @media (max-width: 480px) {
   .admin-search { max-width: 100%; }

@@ -114,7 +114,7 @@ async function traducirDesc() {
   const texto = juego.value?.description_raw;
   if (!texto) return;
   traduciendo.value = true;
-  // MyMemory free API: límite de 500 caracteres por petición
+  // MyMemory (límite de 500 caracteres por petición)
   const fragmento = texto.substring(0, 500);
   const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(fragmento)}&langpair=en|es`;
   try {
@@ -162,8 +162,8 @@ async function traducirDesc() {
                 <router-link to="/busqueda" class="breadcrumb-link">
                   <i class="bi bi-search me-1"></i>Búsqueda
                 </router-link>
-                <span class="text-muted">/</span>
-                <span class="text-muted text-truncate" style="max-width:260px">{{ juego.name }}</span>
+                <span class="text-white">/</span>
+                <span class="text-white text-truncate" style="max-width:260px">{{ juego.name }}</span>
               </nav>
 
               <div class="d-flex gap-4 align-items-end">

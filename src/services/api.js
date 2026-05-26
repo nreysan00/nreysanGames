@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost/back',
-  //baseURL: 'https://nreysan828.infinityfreeapp.com/nreysangames',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -32,6 +31,9 @@ export default {
   // Admin
   getAdminUsers() {
     return apiClient.get('/admin.php');
+  },
+  deleteAdminUser(id) {
+    return apiClient.post('/admin.php?action=delete', { id });
   },
   // Perfil
   getPerfilUsuario(username) {
