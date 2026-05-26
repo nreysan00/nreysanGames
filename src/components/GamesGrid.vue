@@ -50,7 +50,11 @@
                 <span>{{ game.rating }}</span>
               </div>
             </div>
-            <h3 class="game-title">{{ game.title }}</h3>
+            <h3 class="game-title">
+              <router-link :to="`/juego/${game.id}`" class="game-title text-decoration-none">
+                    {{ game.title }}
+                  </router-link>
+            </h3>
             <p class="game-studio">{{ game.studio }}</p>
             <div class="d-flex justify-content-between align-items-center mt-2">
               <div class="game-price-block">
@@ -72,10 +76,10 @@
 <script setup>
 const games = [
   {
-    id: 1,
+    id: 28,
     title: 'Red Dead Redemption 2',
     studio: 'Rockstar Games',
-    genre: 'Acción / RPG',
+    genre: 'Acción / Aventura',
     rating: '9.7',
     price: '42.99',
     oldPrice: '59.99',
@@ -84,10 +88,10 @@ const games = [
     badge: { type: 'sale', text: '-23%' },
   },
   {
-    id: 2,
+    id: 1004511,
     title: "Resident Evil Requiem",
-    studio: 'ArkaneWorks',
-    genre: 'RPG / Fantasía',
+    studio: 'Campcom',
+    genre: 'Terror / Acción',
     rating: '9.1',
     price: '39.99',
     oldPrice: '59.99',
@@ -96,10 +100,10 @@ const games = [
     badge: { type: 'sale', text: '−33%' },
   },
   {
-    id: 3,
+    id: 529829,
     title: 'Crimson Desert',
-    studio: 'DarkPixel',
-    genre: 'Sigilo / Thriller',
+    studio: 'Pearl Abyss',
+    genre: 'Acción / RPG',
     rating: '8.8',
     price: '29.99',
     oldPrice: null,
@@ -108,7 +112,7 @@ const games = [
     badge: { type: 'new', text: 'NUEVO' },
   },
   {
-    id: 4,
+    id: 22511,
     title: 'Legend Of Zelda: Breath Of The Wild',
     studio: 'Nintendo',
     genre: 'Aventura / Mundo abierto',
@@ -120,7 +124,7 @@ const games = [
     badge: { type: 'hot', text: 'POPULAR' },
   },
   {
-    id: 5,
+    id: 28026,
     title: 'Super Mario Odyssey',
     studio: 'Nintendo',
     genre: 'Aventura / Plataformas',
@@ -132,7 +136,7 @@ const games = [
     badge: { type: 'sale', text: '−18%' },
   },
   {
-    id: 6,
+    id: 2462,
     title: 'Uncharted 4: A Thief’s End',
     studio: 'Naughty Dog',
     genre: 'Aventura / Acción',

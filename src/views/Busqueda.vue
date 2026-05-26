@@ -10,22 +10,53 @@ const juegosCoincidentesBusqueda = ref([]);
 const busquedaInput = ref('');
 const loading = ref(false);
 const hasSearched = ref(false);
+const genreActivo = ref('');
 const toast = ref({ show: false, message: '', type: 'success' });
 
 let toastTimer = null;
 
+const API_KEY = '372286ed50fe4f79a2573c915a595a68';
+
 onMounted(() => {
-  const q = route.query.q || '';
-  if (q) { busquedaInput.value = q; buscarJuegos(q); }
+  const q     = route.query.q     || '';
+  const genre = route.query.genre || '';
+  const tag   = route.query.tag   || '';
+  if (genre) {
+    genreActivo.value = route.query.genreName || genre;
+    buscarPorGenero(genre, false);
+  } else if (tag) {
+    genreActivo.value = route.query.genreName || tag;
+    buscarPorGenero(tag, true);
+  } else if (q) {
+    busquedaInput.value = q;
+    buscarJuegos(q);
+  }
 });
 
 async function buscarJuegos(nombreJuego) {
   if (!nombreJuego?.trim()) return;
+  genreActivo.value = '';
   loading.value = true;
   hasSearched.value = true;
   juegosCoincidentesBusqueda.value = [];
-  const API_KEY = '372286ed50fe4f79a2573c915a595a68';
   const url = `https://api.rawg.io/api/games?key=${API_KEY}&search=${encodeURIComponent(nombreJuego)}&page_size=20`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Error en la respuesta de la API');
+    juegosCoincidentesBusqueda.value = (await response.json()).results;
+  } catch (error) {
+    showToast('Error al conectar con la API de RAWG.', 'error');
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function buscarPorGenero(value, isTag = false) {
+  loading.value = true;
+  hasSearched.value = true;
+  juegosCoincidentesBusqueda.value = [];
+  const param = isTag ? `tags=${value}` : `genres=${value}`;
+  const url = `https://api.rawg.io/api/games?key=${API_KEY}&${param}&page_size=20&ordering=-rating`;
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Error en la respuesta de la API');
@@ -132,6 +163,9 @@ function platformIcon(slug) {
         <template v-else>
           <p class="text-muted small mb-3">
             <i class="bi bi-grid-3x3-gap-fill me-1 accent-text"></i>
+            <template v-if="genreActivo">
+              Género: <span class="accent-text fw-semibold">{{ genreActivo }}</span> &mdash;
+            </template>
             {{ juegosCoincidentesBusqueda.length }} resultados encontrados
           </p>
 

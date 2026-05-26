@@ -6,7 +6,8 @@ import AppFooter from '../components/AppFooter.vue';
 import api from '../services/api';
 
 const route = useRoute();
-const username = route.params.username;
+const session = localStorage.getItem('login');
+const username = route.params.username || (session ? JSON.parse(session).username : null);
 const juegos = ref([]);
 const loading = ref(true);
 const error = ref(null);
@@ -14,6 +15,11 @@ const error = ref(null);
 onMounted(fetchPerfil);
 
 async function fetchPerfil() {
+  if (!username) {
+    error.value = 'No se ha especificado un usuario.';
+    loading.value = false;
+    return;
+  }
   try {
     const response = await api.getPerfilUsuario(username);
     juegos.value = response.data.juegos;

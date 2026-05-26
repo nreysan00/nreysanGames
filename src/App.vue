@@ -1,10 +1,4 @@
 <script setup>
-import AppHeader         from './components/AppHeader.vue';
-import HeroSection       from './components/HeroSection.vue';
-import CategoriesSection from './components/CategoriesSection.vue';
-import GamesGrid         from './components/GamesGrid.vue';
-import SpecialOfferBanner from './components/SpecialOfferBanner.vue';
-import AppFooter         from './components/AppFooter.vue';
 </script>
 
 <template>

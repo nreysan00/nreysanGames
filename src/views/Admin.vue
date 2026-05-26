@@ -109,7 +109,7 @@ function maskPassword(hash) {
                   </td>
 
                   <td>
-                    <a :href="`mailto:${usuario.email}`" class="text-decoration-none text-muted small">
+                    <a :href="`mailto:${usuario.email}`" class="text-decoration-none text-white small">
                       <i class="bi bi-envelope me-1" aria-hidden="true"></i>{{ usuario.email }}
                     </a>
                   </td>
@@ -160,9 +160,10 @@ function maskPassword(hash) {
 .admin-table thead tr { background: var(--bg-surface); border-bottom: 1px solid var(--border-h); }
 .admin-table th { padding: .9rem 1.2rem; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); text-align: left; white-space: nowrap; }
 .admin-table td { padding: .85rem 1.2rem; color: var(--text); vertical-align: middle; }
-.col-id    { width: 60px; text-align: center; }
-.col-games { text-align: center; }
-.admin-table td.col-id, .admin-table td.col-games { text-align: center; }
+.col-id    { width: 60px; }
+.col-games { width: 130px; }
+.admin-table th.col-id, .admin-table td.col-id,
+.admin-table th.col-games, .admin-table td.col-games { text-align: center; }
 .table-row { border-bottom: 1px solid var(--border); transition: background .15s; }
 .table-row:last-child { border-bottom: none; }
 .table-row:hover { background: rgba(139,92,246,.05); }

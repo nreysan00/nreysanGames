@@ -79,7 +79,7 @@ const router = createRouter({
             component: VerJuego
         },
         {
-            path: '/perfil/:username',
+            path: '/perfil/:username?',
             name: 'perfil',
             component: PerfilUsuario
         },

@@ -1,5 +1,5 @@
 <script setup>
-import AppHeader from '../components/AppHeader.vue';
+import AppHeader from '../components/AppHeaderHome.vue';
 import AppFooter from '../components/AppFooter.vue';
 import HeroSection from '../components/HeroSection.vue';
 import CategoriesSection from '../components/CategoriesSection.vue';

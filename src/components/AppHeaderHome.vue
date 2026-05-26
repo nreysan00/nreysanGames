@@ -27,10 +27,10 @@ function cerrarSesion() {
       <div class="container">
 
         <!-- Logo -->
-        <router-link class="navbar-brand" to="/" aria-label="Inicio de nreysanGames">
+        <a class="navbar-brand" href="/" aria-label="Inicio de nreysanGames">
           <i class="bi bi-controller brand-icon" aria-hidden="true"></i>
           <span class="brand-name"><span class="brand-hl">nreysan</span>Games</span>
-        </router-link>
+        </a>
 
         <!-- Toggler -->
         <button
@@ -49,16 +49,18 @@ function cerrarSesion() {
         <div class="collapse navbar-collapse" id="navbarMain">
           <ul class="navbar-nav mx-auto gap-1 mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-lnk" to="/" active-class="active" exact-active-class="active">Inicio</router-link>
+              <a class="nav-lnk active" href="#inicio" aria-current="page">Inicio</a>
             </li>
             <li class="nav-item">
-              <router-link class="nav-lnk" to="/busqueda" active-class="active">Búsqueda</router-link>
+              <a class="nav-lnk" href="#juegos">Juegos</a>
             </li>
             <li class="nav-item">
-              <router-link class="nav-lnk" to="/milista" active-class="active">Mi Lista</router-link>
+              <a class="nav-lnk" href="#categorias">Categorías</a>
             </li>
             <li class="nav-item">
-              <router-link class="nav-lnk" to="/perfil" active-class="active">Mi Perfil</router-link>
+              <a class="nav-lnk" href="#oferta">
+                Ofertas&nbsp;<span class="hot-badge">HOT</span>
+              </a>
             </li>
           </ul>
 
@@ -101,8 +103,8 @@ function cerrarSesion() {
                 <ul class="dropdown-menu dropdown-menu-end user-dropdown">
                   <span class="dropdown-header" @click.stop>Hola, {{ usuarioLogado }}</span>
                   <li v-if="usuarioLogado == 'admin'"><a class="dropdown-item user-dropdown-item" href="/admin">Panel de Administración</a></li>
-                  <li><router-link class="dropdown-item user-dropdown-item" :to="`/perfil/${usuarioLogado}`">Mi Perfil</router-link></li>
-                  <li><a class="dropdown-item user-dropdown-item" href="/milista">Mis Listas</a></li>
+                  <li v-if="usuarioLogado"><a class="dropdown-item user-dropdown-item" href="/perfil/">Mi Perfil Público</a></li>
+                  <li><a class="dropdown-item user-dropdown-item" href="/milista">Editar Lista</a></li>
                   <li><hr class="dropdown-divider user-divider"></li>
                   <li>
                     <button class="dropdown-item user-dropdown-item text-danger-soft" @click="cerrarSesion">
@@ -180,6 +182,18 @@ function cerrarSesion() {
   background: rgba(139, 92, 246, 0.12);
 }
 .nav-lnk.active { color: #a78bfa; }
+
+.hot-badge {
+  display: inline-block;
+  font-size: 0.58rem;
+  font-weight: 700;
+  background: #ef4444;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.6px;
+  vertical-align: middle;
+}
 
 /* ── Icon buttons ── */
 .icon-btn {

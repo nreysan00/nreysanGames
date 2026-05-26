@@ -6,9 +6,9 @@
         <h2 id="cats-title" class="section-title">
           Explorar por <span class="hl">Género</span>
         </h2>
-        <a href="#juegos" class="see-all-link">
+        <router-link to="/busqueda" class="see-all-link">
           Ver todos <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
-        </a>
+        </router-link>
       </div>
 
       <div class="cats-grid" role="list" aria-label="Géneros de videojuegos">
@@ -16,12 +16,10 @@
           v-for="cat in categories"
           :key="cat.name"
           class="cat-card"
-          :class="{ active: activeCat === cat.name }"
           :style="{ '--cat-color': cat.color }"
-          @click="activeCat = cat.name"
+          @click="irACategoria(cat)"
           role="listitem"
-          :aria-pressed="activeCat === cat.name"
-          :aria-label="`Filtrar por ${cat.name}`"
+          :aria-label="`Ver juegos de ${cat.name}`"
         >
           <div class="cat-icon-wrap">
             <i :class="`bi ${cat.icon}`" aria-hidden="true"></i>
@@ -36,20 +34,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const activeCat = ref('Todos');
+const router = useRouter();
 
 const categories = [
-  { name: 'Todos',      icon: 'bi-grid-fill',         color: '#8b5cf6', count: '50K+' },
-  { name: 'Acción',     icon: 'bi-lightning-fill',     color: '#ef4444', count: '8.2K' },
-  { name: 'RPG',        icon: 'bi-magic',              color: '#f59e0b', count: '5.4K' },
-  { name: 'Aventura',   icon: 'bi-compass-fill',       color: '#10b981', count: '6.1K' },
-  { name: 'Estrategia', icon: 'bi-diagram-3-fill',     color: '#3b82f6', count: '4.3K' },
-  { name: 'Deportes',   icon: 'bi-trophy-fill',        color: '#22c55e', count: '3.8K' },
-  { name: 'Terror',     icon: 'bi-moon-stars-fill',    color: '#a855f7', count: '2.9K' },
-  { name: 'Simulación', icon: 'bi-controller',         color: '#06b6d4', count: '3.2K' },
+  { name: 'Todos',      icon: 'bi-grid-fill',         color: '#8b5cf6', count: '50K+', genre: null },
+  { name: 'Acción',     icon: 'bi-lightning-fill',     color: '#ef4444', count: '8.2K', genre: 'action' },
+  { name: 'RPG',        icon: 'bi-magic',              color: '#f59e0b', count: '5.4K', genre: 'role-playing-games-rpg' },
+  { name: 'Aventura',   icon: 'bi-compass-fill',       color: '#10b981', count: '6.1K', genre: 'adventure' },
+  { name: 'Estrategia', icon: 'bi-diagram-3-fill',     color: '#3b82f6', count: '4.3K', genre: 'strategy' },
+  { name: 'Deportes',   icon: 'bi-trophy-fill',        color: '#22c55e', count: '3.8K', genre: 'sports' },
+  { name: 'Terror',     icon: 'bi-moon-stars-fill',    color: '#a855f7', count: '2.9K', genre: 'horror', isTag: true },
+  { name: 'Simulación', icon: 'bi-controller',         color: '#06b6d4', count: '3.2K', genre: 'simulation' },
 ];
+
+function irACategoria(cat) {
+  if (!cat.genre) {
+    router.push('/busqueda');
+  } else if (cat.isTag) {
+    router.push({ path: '/busqueda', query: { tag: cat.genre, genreName: cat.name } });
+  } else {
+    router.push({ path: '/busqueda', query: { genre: cat.genre, genreName: cat.name } });
+  }
+}
 </script>
 
 <style scoped>

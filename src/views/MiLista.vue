@@ -64,7 +64,7 @@ const borrarJuego = async (id) => {
         <AppHeader/>
             <main class="container my-5 min-vh-100">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="text-white">Mi Colección</h1>
+            <h1 class="text-white">Editar Lista</h1>
             <span class="badge bg-primary">{{ listaJuegos.length }} Juegos</span>
         </div>
 

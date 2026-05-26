@@ -227,11 +227,11 @@ async function traducirDesc() {
                 <h2 class="block-title"><i class="bi bi-bar-chart-fill me-2 accent-text"></i>Valoraciones</h2>
                 <div class="d-flex flex-column gap-3">
                   <div v-for="r in juego.ratings" :key="r.id" class="d-flex align-items-center gap-3">
-                    <span class="rating-label text-muted small text-capitalize text-end" style="min-width:100px">{{ r.title }}</span>
+                    <span class="rating-label text-white small text-capitalize text-end" style="min-width:100px">{{ r.title }}</span>
                     <div class="bar-track flex-grow-1">
                       <div class="bar-fill" :style="{ width: r.percent + '%', background: ratingBarColor(r.title) }"></div>
                     </div>
-                    <span class="text-muted small text-end" style="min-width:42px">{{ r.percent.toFixed(1) }}%</span>
+                    <span class="text-white small text-end" style="min-width:42px">{{ r.percent.toFixed(1) }}%</span>
                   </div>
                 </div>
               </div>
@@ -243,7 +243,7 @@ async function traducirDesc() {
                   <div v-for="p in juego.platforms" :key="p.platform.id" class="col-6 col-md-4">
                     <div class="platform-item d-flex align-items-center gap-2">
                       <i :class="platformIcon(p.platform.slug)" class="platform-icon"></i>
-                      <span class="small text-muted">{{ p.platform.name }}</span>
+                      <span class="small text-white">{{ p.platform.name }}</span>
                     </div>
                   </div>
                 </div>
